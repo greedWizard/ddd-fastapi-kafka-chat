@@ -11,6 +11,7 @@ fastapi = "^0.110.0"
 motor = "^3.3.2"
 uvicorn = {extras = ["all"], version = "^0.28.0"}
 ipython = "^8.22.2"
+pytest = "^8.1.1"
 
 
 [build-system]
