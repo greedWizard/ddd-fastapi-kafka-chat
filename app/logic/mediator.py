@@ -22,7 +22,7 @@ class Mediator:
     def register_event(self, event: ET, event_handlers: Iterable[EventHandler[ET, ER]]):
         self.events_map[event].append(event_handlers)
 
-    def register_command(self, command: CT, command_handlers: Iterable[EventHandler[CT, CR]]):
+    def register_command(self, command: CT, command_handlers: Iterable[CommandHandler[CT, CR]]):
         self.events_map[command].extend(command_handlers)
 
     async def handle_event(self, event: BaseEvent) -> Iterable[ER]:
