@@ -5,12 +5,12 @@ from logic.init import init_mediator
 from logic.mediator import Mediator
 
 
-@fixture(scope='package')
+@fixture(scope='function')
 def chat_repository() -> MemoryChatRepository:
     return MemoryChatRepository()
 
 
-@fixture(scope='package')
+@fixture(scope='function')
 def mediator(chat_repository: BaseChatRepository) -> Mediator:
     mediator = Mediator()
     init_mediator(mediator=mediator, chat_repository=chat_repository)
