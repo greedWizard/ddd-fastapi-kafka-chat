@@ -19,7 +19,7 @@ class MongoDBChatRepository(BaseChatRepository):
     async def check_chat_exists_by_title(self, title: str) -> bool:
         collection = self._get_chat_collection()
 
-        return await collection.find_one(filter={'title': title})
+        return bool(await collection.find_one(filter={'title': title}))
 
     async def add_chat(self, chat: Chat) -> None:
         collection = self._get_chat_collection()
