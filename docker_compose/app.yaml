@@ -13,3 +13,9 @@ services:
       - ../.env
     volumes:
       - ../app/:/app/
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
