@@ -39,6 +39,9 @@ class MongoDBChatsRepository(BaseChatsRepository, BaseMongoDBRepository):
 @dataclass
 class MongoDBMessagesRepository(BaseMessagesRepository, BaseMongoDBRepository):
     async def add_message(self, chat_oid: str, message: Message) -> None:
+        await self._collection.insert_one(
+            document=convert_message_to_document(message),
+        )
         await self._collection.update_one(
             filter={'oid': chat_oid},
             update={
