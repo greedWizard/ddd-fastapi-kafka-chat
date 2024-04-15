@@ -12,8 +12,8 @@ ER = TypeVar('ER', bound=Any)
 
 @dataclass
 class EventHandler(ABC, Generic[ET, ER]):
-    broker_topic: str | None = None
     message_broker: BaseMessageBroker
+    broker_topic: str | None = None
 
     def handle(self, event: ET) -> ER:
         ...

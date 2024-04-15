@@ -9,7 +9,7 @@ class BaseMessageBroker(ABC):
     # consumer: AIOKafkaConsumer
 
     @abstractmethod
-    async def send_message(self, topic: str, value: bytes):
+    async def send_message(self, key: str, topic: str, value: bytes):
         ...
 
     @abstractmethod
