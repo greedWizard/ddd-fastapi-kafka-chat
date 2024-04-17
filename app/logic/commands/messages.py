@@ -50,5 +50,6 @@ class CreateMessageCommandHandler(CommandHandler[CreateMessageCommand, Chat]):
         message = Message(text=Text(value=command.text), chat_oid=command.chat_oid)
         chat.add_message(message)
         await self.message_repository.add_message(message=message)
+        await self._mediator.publish(chat.pull_events())
 
         return message

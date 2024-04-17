@@ -41,10 +41,6 @@ class Mediator(EventMediator, QueryMediator, CommandMediator):
 
         for event in events:
             handlers: Iterable[EventHandler] = self.events_map[event.__class__]
-
-            for handler in handlers:
-                result.append(await handler.handle(event=event))
-
             result.extend([await handler.handle(event) for handler in handlers])
 
         return result
