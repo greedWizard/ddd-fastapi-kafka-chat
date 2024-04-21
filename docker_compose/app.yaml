@@ -15,6 +15,9 @@ services:
       - ../app/:/app/
     networks:
       - backend
+    depends_on:
+      kafka:
+        condition: service_healthy
 
 networks:
   backend:

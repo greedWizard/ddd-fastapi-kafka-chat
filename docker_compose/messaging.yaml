@@ -29,6 +29,8 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - backend
+    healthcheck: 
+      test: nc -z localhost 29092
 
   kafka-ui:
     image: provectuslabs/kafka-ui
