@@ -22,7 +22,7 @@ class BaseConnectionManager(ABC):
         ...
 
     @abstractmethod
-    async def send_all(self, key: str, json_message: Mapping[str, Any]):
+    async def send_all(self, key: str, bytes_: bytes):
         ...
 
 
@@ -33,9 +33,13 @@ class ConnectionManager(BaseConnectionManager):
         self.connections_map[key].append(websocket)
 
     async def remove_connection(self, websocket: WebSocket, key: str):
-        await websocket.close()
+        # await websocket.close()
         self.connections_map[key].remove(websocket)
 
-    async def send_all(self, key: str, json_message: Mapping[str, Any]):
+    async def send_all(self, key: str, bytes_: bytes):
         for websocket in self.connections_map[key]:
-            await websocket.send_json(json_message)
+            # Тут был send_json раньше
+            # send_json под капотом вызывает json.dumps, который нихуя не проглатывает UUID и datetime
+            # заменил на send_bytes и взял готовый конвертер
+            # TODO: этот момент отрефакторить, делаю как временное быстрое решение
+            await websocket.send_bytes(bytes_)
