@@ -1,9 +1,9 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import AsyncIterator
 
+import orjson
 from aiokafka import AIOKafkaConsumer
 from aiokafka.producer import AIOKafkaProducer
-import orjson
 
 from infra.message_brokers.base import BaseMessageBroker
 

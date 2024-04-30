@@ -1,4 +1,8 @@
-from typing import Generic, TypeVar
+from typing import (
+    Generic,
+    TypeVar,
+)
+
 from pydantic import BaseModel
 
 
@@ -12,5 +16,5 @@ IT = TypeVar('IT')
 class BaseQueryResponseSchema(BaseModel, Generic[IT]):
     count: int
     offset: int
-    limit:int
+    limit: int
     items: IT

@@ -20,8 +20,47 @@ pydantic-settings = "^2.2.1"
 aiokafka = "^0.10.0"
 orjson = "^3.10.0"
 websockets = "^12.0"
+aiojobs = "^1.2.1"
+pre-commit = "^3.7.0"
 
+
+[tool.poetry.group.lint.dependencies]
+isort = "^5.13.2"
+flake8 = "^7.0.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+multi_line_output=3
+include_trailing_comma=true
+line_length=120
+lines_after_imports=2
+lines_between_sections=1
+lines_between_types=0
+force_alphabetical_sort_within_sections=true
+ensure_newline_before_comments=true
+combine_as_imports=true
+combine_star=true
+skip_gitignore=true
+balanced_wrapping=true
+force_grid_wrap=2
+src_paths=["core", ]
+skip_glob=[
+    ".git",
+    ".idea",
+    ".vscode",
+    "venv",
+    ".venv",
+]
+known_fastapi=["fastapi","starlette"]
+known_first_party=["application","domain","infra","logic","settings","tests"]
+sections=[
+    "FUTURE",
+    "STDLIB",
+    "FASTAPI",
+    "THIRDPARTY",
+    "FIRSTPARTY",
+    "LOCALFOLDER",
+]

@@ -1,6 +1,16 @@
-from typing import Any, Mapping
-from domain.entities.messages import Chat, Message
-from domain.values.messages import Text, Title
+from typing import (
+    Any,
+    Mapping,
+)
+
+from domain.entities.messages import (
+    Chat,
+    Message,
+)
+from domain.values.messages import (
+    Text,
+    Title,
+)
 
 
 def convert_message_entity_to_document(message: Message) -> dict:

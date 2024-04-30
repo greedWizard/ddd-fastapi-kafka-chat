@@ -1,5 +1,4 @@
 import pytest
-
 from faker import Faker
 
 from domain.entities.messages import Chat

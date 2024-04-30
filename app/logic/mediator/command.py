@@ -1,9 +1,20 @@
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod,
+)
 from collections import defaultdict
 from collections.abc import Iterable
-from dataclasses import dataclass, field
+from dataclasses import (
+    dataclass,
+    field,
+)
 
-from logic.commands.base import CR, CT, BaseCommand, CommandHandler
+from logic.commands.base import (
+    BaseCommand,
+    CommandHandler,
+    CR,
+    CT,
+)
 
 
 @dataclass(eq=False)

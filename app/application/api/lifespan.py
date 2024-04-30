@@ -1,6 +1,5 @@
-from domain.events.messages import NewMessageReceivedFromBrokerEvent
 from infra.message_brokers.base import BaseMessageBroker
-
+from logic.events.messages import NewMessageReceivedFromBrokerEvent
 from logic.init import init_container
 from logic.mediator.base import Mediator
 from settings.config import Config

@@ -1,11 +1,18 @@
 from datetime import datetime
 from uuid import uuid4
+
 import pytest
 
-from domain.entities.messages import Chat, Message
+from domain.entities.messages import (
+    Chat,
+    Message,
+)
 from domain.events.messages import NewMessageReceivedEvent
 from domain.exceptions.message import TitleTooLongException
-from domain.values.messages import Text, Title
+from domain.values.messages import (
+    Text,
+    Title,
+)
 
 
 def test_create_message_success_short_text():
