@@ -18,6 +18,8 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+      mongodb:
+        condition: service_healthy
 
 networks:
   backend:
