@@ -7,13 +7,17 @@ from fastapi.routing import APIRouter
 
 from punq import Container
 
-from application.api.messages.filters import GetMessagesFilters
+from application.api.messages.filters import (
+    GetAllChatsFilters,
+    GetMessagesFilters,
+)
 from application.api.messages.schemas import (
     ChatDetailSchema,
     CreateChatRequestSchema,
     CreateChatResponseSchema,
     CreateMessageResponseSchema,
     CreateMessageSchema,
+    GetAllChatsQueryResponseSchema,
     GetMessagesQueryResponseSchema,
     MessageDetailSchema,
 )
@@ -26,6 +30,7 @@ from logic.commands.messages import (
 from logic.init import init_container
 from logic.mediator.base import Mediator
 from logic.queries.messages import (
+    GetAllChatsQuery,
     GetChatDetailQuery,
     GetMessagesQuery,
 )
@@ -134,4 +139,35 @@ async def get_chat_messages_handler(
         limit=filters.limit,
         offset=filters.offset,
         items=[MessageDetailSchema.from_entity(message) for message in messages],
+    )
+
+
+@router.get(
+    '/',
+    status_code=status.HTTP_200_OK,
+    description='Получить все открытые чаты на данный момент',
+    responses={
+        status.HTTP_200_OK: {'model': GetAllChatsQueryResponseSchema},
+        status.HTTP_400_BAD_REQUEST: {'model': ErrorSchema},
+    },
+    summary='Получить список всех чатов',
+)
+async def get_all_chats_handler(
+    filters: GetAllChatsFilters = Depends(),
+    container: Container = Depends(init_container),
+) -> GetAllChatsQueryResponseSchema:
+    mediator: Mediator = container.resolve(Mediator)
+
+    try:
+        chats, count = await mediator.handle_query(
+            GetAllChatsQuery(filters=filters.to_infra()),
+        )
+    except ApplicationException as exception:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': exception.message})
+
+    return GetAllChatsQueryResponseSchema(
+        count=count,
+        limit=filters.limit,
+        offset=filters.offset,
+        items=[ChatDetailSchema.from_entity(chat) for chat in chats],
     )

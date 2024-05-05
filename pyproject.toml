@@ -11,9 +11,6 @@ fastapi = {extras = ["httpx"], version = "^0.110.0"}
 motor = "^3.3.2"
 uvicorn = {extras = ["all"], version = "^0.28.0"}
 ipython = "^8.22.2"
-pytest = "^8.1.1"
-pytest-asyncio = "^0.23.6"
-faker = "^24.3.0"
 punq = "^0.7.0"
 httpx = "^0.27.0"
 pydantic-settings = "^2.2.1"
@@ -21,20 +18,24 @@ aiokafka = "^0.10.0"
 orjson = "^3.10.0"
 websockets = "^12.0"
 aiojobs = "^1.2.1"
-pre-commit = "^3.7.0"
 
 
 [tool.poetry.group.lint.dependencies]
 isort = "^5.13.2"
 flake8 = "^7.0.0"
+ruff = "^0.4.3"
+pre-commit = "^3.7.0"
 
 
 [tool.poetry.group.dev.dependencies]
-pre-commit = "^3.7.0"
+pytest = "^8.2.0"
+pytest-asyncio = "^0.23.6"
+faker = "^25.0.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
 
 [tool.isort]
 multi_line_output=3
