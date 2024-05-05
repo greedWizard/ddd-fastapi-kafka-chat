@@ -28,6 +28,10 @@ pre-commit = "^3.7.0"
 isort = "^5.13.2"
 flake8 = "^7.0.0"
 
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
