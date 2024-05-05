@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  main-app:
+    ports: 
+      - "8000:8000"
+    volumes:
+      - ../app/:/app/
+    depends_on:
+      kafka:
+        condition: service_healthy
+    command: "uvicorn --factory application.api.main:create_app --timeout-graceful-shutdown 2 --host 0.0.0.0 --port 8000 --reload "
