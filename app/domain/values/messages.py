@@ -8,9 +8,7 @@ from domain.values.base import BaseValueObject
 
 
 @dataclass(frozen=True)
-class Text(BaseValueObject):
-    value: str
-
+class Text(BaseValueObject[str]):
     def validate(self):
         if not self.value:
             raise EmptyTextException()
@@ -20,7 +18,7 @@ class Text(BaseValueObject):
 
 
 @dataclass(frozen=True)
-class Title(BaseValueObject):
+class Title(BaseValueObject[str]):
     def validate(self):
         if not self.value:
             raise EmptyTextException()

@@ -26,6 +26,10 @@ class BaseChatsRepository(ABC):
     async def add_chat(self, chat: Chat) -> None:
         ...
 
+    @abstractmethod
+    async def get_all_chats(self, limit: int, offset: int) -> Iterable[Chat]:
+        ...
+
 
 @dataclass
 class BaseMessagesRepository(ABC):
