@@ -68,7 +68,10 @@ def _init_container() -> Container:
     config: Config = container.resolve(Config)
 
     def create_mongodb_client():
-        return AsyncIOMotorClient(config.mongodb_connection_uri, serverSelectionTimeoutMS=3000)
+        return AsyncIOMotorClient(
+            config.mongodb_connection_uri,
+            serverSelectionTimeoutMS=3000,
+        )
 
     container.register(AsyncIOMotorClient, factory=create_mongodb_client, scope=Scope.singleton)
     client = container.resolve(AsyncIOMotorClient)
@@ -104,7 +107,7 @@ def _init_container() -> Container:
             producer=AIOKafkaProducer(bootstrap_servers=config.kafka_url),
             consumer=AIOKafkaConsumer(
                 bootstrap_servers=config.kafka_url,
-                group_id=f'chats-{uuid4()}',
+                group_id=f"chats-{uuid4()}",
                 metadata_max_age_ms=30000,
             ),
         )

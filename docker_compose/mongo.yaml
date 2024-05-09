@@ -10,6 +10,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:?}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:?}
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
 
 volumes:
   dbdata6:
