@@ -18,4 +18,4 @@ class ChatNotFoundException(LogicException):
 
     @property
     def message(self):
-        return f'Чат с таким {self.chat_oid=} не найден.'
+        return f'Чат с таким {self.chat_oid} не найден.'

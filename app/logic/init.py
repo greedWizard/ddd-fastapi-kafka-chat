@@ -13,6 +13,7 @@ from punq import (
 )
 
 from domain.events.messages import (
+    ChatDeletedEvent,
     NewChatCreatedEvent,
     NewMessageReceivedEvent,
 )
@@ -35,8 +36,11 @@ from logic.commands.messages import (
     CreateChatCommandHandler,
     CreateMessageCommand,
     CreateMessageCommandHandler,
+    DeleteChatCommand,
+    DeleteChatCommandHandler,
 )
 from logic.events.messages import (
+    ChatDeletedEventHandler,
     NewChatCreatedEventHandler,
     NewMessageReceivedEventHandler,
     NewMessageReceivedFromBrokerEvent,
@@ -130,6 +134,10 @@ def _init_container() -> Container:
             message_repository=container.resolve(BaseMessagesRepository),
             chats_repository=container.resolve(BaseChatsRepository),
         )
+        delete_chat_handler = DeleteChatCommandHandler(
+            _mediator=mediator,
+            chats_repository=container.resolve(BaseChatsRepository),
+        )
 
         # evene handlers
         new_chat_created_event_handler = NewChatCreatedEventHandler(
@@ -147,6 +155,11 @@ def _init_container() -> Container:
             broker_topic=config.new_message_received_topic,
             connection_manager=container.resolve(BaseConnectionManager),
         )
+        chat_deleted_event_handler = ChatDeletedEventHandler(
+            message_broker=container.resolve(BaseMessageBroker),
+            broker_topic=config.chat_deleted_topic,
+            connection_manager=container.resolve(BaseConnectionManager),
+        )
 
         # events
         mediator.register_event(
@@ -161,6 +174,10 @@ def _init_container() -> Container:
             NewMessageReceivedFromBrokerEvent,
             [new_message_received_from_broker_event_handler],
         )
+        mediator.register_event(
+            ChatDeletedEvent,
+            [chat_deleted_event_handler],
+        )
 
         # commands
         mediator.register_command(
@@ -170,6 +187,10 @@ def _init_container() -> Container:
         mediator.register_command(
             CreateMessageCommand,
             [create_message_handler],
+        )
+        mediator.register_command(
+            DeleteChatCommand,
+            [delete_chat_handler],
         )
 
         # Queries

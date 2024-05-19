@@ -26,6 +26,7 @@ from domain.exceptions.base import ApplicationException
 from logic.commands.messages import (
     CreateChatCommand,
     CreateMessageCommand,
+    DeleteChatCommand,
 )
 from logic.init import init_container
 from logic.mediator.base import Mediator
@@ -171,3 +172,21 @@ async def get_all_chats_handler(
         offset=filters.offset,
         items=[ChatDetailSchema.from_entity(chat) for chat in chats],
     )
+
+
+@router.delete(
+    '/{chat_oid}/',
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary='Delete chat after conversation ends',
+    description='Deletes chat by provided "chat_oid"',
+)
+async def delete_chat_handler(
+    chat_oid: str,
+    container: Container = Depends(init_container),
+) -> None:
+    mediator: Mediator = container.resolve(Mediator)
+
+    try:
+        await mediator.handle_command(DeleteChatCommand(chat_oid=chat_oid))
+    except ApplicationException as exception:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': exception.message})

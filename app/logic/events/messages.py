@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import ClassVar
 
 from domain.events.messages import (
+    ChatDeletedEvent,
     NewChatCreatedEvent,
     NewMessageReceivedEvent,
 )
@@ -48,3 +49,14 @@ class NewMessageReceivedFromBrokerEventHandler(EventHandler[NewMessageReceivedFr
             key=event.chat_oid,
             bytes_=convert_event_to_broker_message(event=event),
         )
+
+
+@dataclass
+class ChatDeletedEventHandler(EventHandler[ChatDeletedEvent, None]):
+    async def handle(self, event: ChatDeletedEvent) -> None:
+        await self.message_broker.send_message(
+            topic=self.broker_topic,
+            value=convert_event_to_broker_message(event=event),
+            key=event.chat_oid.encode(),
+        )
+        await self.connection_manager.disconnect_all(event.chat_oid)

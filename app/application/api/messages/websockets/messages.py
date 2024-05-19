@@ -21,6 +21,7 @@ async def websocket_endpoint(
     container: Container = Depends(init_container),
 ):
     connection_manager: BaseConnectionManager = container.resolve(BaseConnectionManager)
+    # TODO: проверять, что чат существует перед коннектом
     await connection_manager.accept_connection(websocket=websocket, key=chat_oid)
 
     await websocket.send_text("You are now connected!")
