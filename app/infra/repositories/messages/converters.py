@@ -41,6 +41,7 @@ def convert_message_document_to_entity(message_document: Mapping[str, Any]) -> M
 
 
 def convert_chat_listener_document_to_entity(listener_id: str) -> ChatListener:
+    # TODO: принимать сущность слушателя
     return ChatListener(oid=listener_id)
 
 

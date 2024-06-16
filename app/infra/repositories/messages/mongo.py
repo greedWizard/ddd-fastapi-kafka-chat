@@ -6,6 +6,7 @@ from motor.core import AgnosticClient
 
 from domain.entities.messages import (
     Chat,
+    ChatListener,
     Message,
 )
 from infra.repositories.filters.messages import (
@@ -19,6 +20,7 @@ from infra.repositories.messages.base import (
 from infra.repositories.messages.converters import (
     convert_chat_document_to_entity,
     convert_chat_entity_to_document,
+    convert_chat_listener_document_to_entity,
     convert_message_document_to_entity,
     convert_message_entity_to_document,
 )
@@ -67,6 +69,11 @@ class MongoDBChatsRepository(BaseChatsRepository, BaseMongoDBRepository):
 
     async def add_telegram_listener(self, chat_oid: str, telegram_chat_id: str):
         await self._collection.update_one({'oid': chat_oid}, {'$push': {'listeners': telegram_chat_id}})
+
+    async def get_all_chat_listeners(self, chat_oid: str) -> Iterable[ChatListener]:
+        chat = await self.get_chat_by_oid(oid=chat_oid)
+
+        return [convert_chat_listener_document_to_entity(listener_id=listener.oid) for listener in chat.listeners]
 
 
 @dataclass
